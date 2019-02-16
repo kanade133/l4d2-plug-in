@@ -36,6 +36,32 @@ public void OnMapStart()
 	CreateTimer(0.1, ChangeMode, any:0, 0);
 }
 
+public OnClientPutInServer(client)
+{
+	CreateTimer(3.0, TimerAnnounce, client);
+}
+
+public Action:TimerAnnounce(Handle:timer, any:client)
+{
+	if (IsClientInGame(client))
+	{
+		new String:mode[16];
+		if (StrEqual(C_Mode, "coop", false))
+		{
+			strcopy(mode, 8, "战役");
+		}
+		if (StrEqual(C_Mode, "realism", false))
+		{
+			strcopy(mode, 8, "写实");
+		}
+		if(StrEqual(C_Mode, "mutation4", false))
+		{
+			strcopy(mode, 8, "八特");
+		}
+		PrintToChat(client, "\x05[提示]\x01当前游戏模式: \x03 %s", mode);
+	}
+}
+
 public void Event_Player_Disconnect(Handle:event, const String:name[], bool:dontBroadcast)
 {
 	if(!isReseting)
@@ -74,7 +100,11 @@ public Action:ServerChangeMode(args)
 	{
 		GetCmdArg(1, C_Mode, sizeof(C_Mode));
 		CreateTimer(0.1, ChangeMode);
-		PrintToChatAll("\x05[提示] \x04 切换游戏模式 \x05 %s", C_Mode);
+		PrintToChatAll("\x05[提示] \x01 切换游戏模式: \x03 %s", C_Mode);
+	}
+	else
+	{
+		PrintToServer("GameMode: %s", C_Mode);
 	}
 }
 
@@ -83,7 +113,7 @@ public Action:ChangeModeMenu(client, args)
 	if(GetConVarInt(hChangeable) == 1)
 	{
 		new Handle:menu = CreateMenu(MapMenuHandler);
-		SetMenuTitle(menu, "请选择模式，目前模式:%s", C_Mode);
+		SetMenuTitle(menu, "请选择模式，目前模式: %s", C_Mode);
 		AddMenuItem(menu, "coop","coop战役");
 		AddMenuItem(menu, "realism","realism写实");
 		AddMenuItem(menu, "mutation4","mutation4八特");
@@ -101,7 +131,7 @@ public MapMenuHandler(Handle:menu, MenuAction:action, client, itemNum)
 		GetMenuItem(menu, itemNum, info, sizeof(info), _, name, sizeof(name));
 		C_Mode = info;
 		CreateTimer(0.1, ChangeMode);
-		PrintToChatAll("\x05[提示] \x04%N 切换游戏模式 \x05 %s", client, name);
+		PrintToChatAll("\x05[提示] \x04%N \x01切换游戏模式: \x03 %s", client, name);
 	}
 }
 
