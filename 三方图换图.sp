@@ -125,17 +125,17 @@ public Handle:OpenConfig()
     BuildPath(PathType:0, sPath, 256, "%s", "data/l4d2_abbw_map.txt");
     if (!FileExists(sPath, false, "GAME"))
     {
-        SetFailState("找不到文件 data/l4d2_abbw_map.txt");
+        SetFailState("Fail To Find File 'data/l4d2_abbw_map.tx't");
     }
     new Handle:hFile = CreateKeyValues("第三方图数据", "", "");
     if (FileToKeyValues(hFile, sPath))
     {
-		PrintToServer("文件数据 data/l4d2_abbw_map.txt 加载成功");
+		PrintToServer("File Data 'data/l4d2_abbw_map.txt Load' Success");
     }
 	else
 	{
         CloseHandle(hFile);
-        SetFailState("无法载入 data/l4d2_abbw_map.txt'");
+        SetFailState("Can't Load 'File data/l4d2_abbw_map.txt'");
 	}
     return hFile;
 }

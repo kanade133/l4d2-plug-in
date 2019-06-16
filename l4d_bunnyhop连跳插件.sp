@@ -57,7 +57,7 @@ public OnPluginStart()
 
 	HookConVarChange(hOffset, ConVar_Delay);
 	HookEvent("player_jump_apex", Event_PlayerJumpApex);
-	RegConsoleCmd("sm_hop", Command_Autobhop);
+	RegConsoleCmd("sm_hop2", Command_Autobhop);
 	//RegConsoleCmd("sm_bunny", Command_Autobhop);
 	//RegConsoleCmd("sm_bunnyhop", Command_Autobhop);
 
